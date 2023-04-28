@@ -1,11 +1,13 @@
 const canvas = document.querySelector(`#name`)
 const game = canvas.getContext(`2d`);
+let canvasSize;
+let elementSize;
 
-window.addEventListener(`load`,startGame)
+window.addEventListener(`load`,setCanvasSize)
+window.addEventListener(`resize`,setCanvasSize)
 
-function startGame() {
-    let canvasSize;
 
+function setCanvasSize () {
     if (window.innerHeight > window.innerWidth) {
         canvasSize = window.innerWidth * 0.8;
     } else {
@@ -14,10 +16,15 @@ function startGame() {
 
     canvas.setAttribute(`width`, canvasSize)
     canvas.setAttribute(`height`, canvasSize)
-    window.innerWidth
-    window.innerHeight
 
-    let elementSize = (canvasSize / 10) - 1;
+    startGame();
+}
+
+function startGame() {
+
+    console.log({canvasSize, elementSize})
+
+    elementSize = (canvasSize / 10) - 1;
     game.font = elementSize + `px Verdana`;
     game.textAlign = ``;
 
@@ -27,12 +34,4 @@ function startGame() {
         
     }
     
-
-    /* game.fillRect(0,0,100,100)
-    /* game.clearRect(0,0,50,50) */
-  /*   game.clearRect(50,50,50,50) */ 
-    /* game.fillStyle = `Blue`
-    game.font = `20px Arial`
-    game.textAlign = `center`
-    game.fillText(`Juanma`,50,25); */
 }
