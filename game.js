@@ -15,6 +15,7 @@ const giftPosition = {
     x: undefined,
     y: undefined,
 }
+let enemyPositions = [];
 
 window.addEventListener(`load`,setCanvasSize)
 window.addEventListener(`resize`,setCanvasSize)
@@ -40,11 +41,13 @@ function startGame() {
     game.font = elementSize + `px Verdana`;
     game.textAlign = ``;
 
-    const map = maps[1];
+    const map = maps[0];
     const mapRows = map.trim().split(`\n`)
     const mapRowsCols = mapRows.map(row => row.trim().split(``))
 
+    enemyPositions = [];
     game.clearRect(0,0,canvasSize,canvasSize);
+
     mapRowsCols.forEach((row, rowI) => {
         row.forEach ((col, colI) => {
             const emoji = emojis [col]
@@ -61,6 +64,11 @@ function startGame() {
             }else if (col == `I`) {
                 giftPosition.x = posX;
                 giftPosition.y = posY;
+            }else if (col == `X`){
+                enemyPositions.push({
+                    x: posX,
+                    y: posY,
+                })
             }
         })
     });
@@ -89,6 +97,17 @@ function movePlayer() {
     if (giftColision) {
         console.log("Subiste de Nivel")
     }
+
+    const enemyColision = enemyPositions.find(enemy => { 
+        const enemyColisionX = enemy.x == playerPosition.x;
+        const enemyColisionY = enemy.y == playerPosition.y;
+        return enemyColisionX && enemyColisionY;
+    });
+
+    if (enemyColision) {
+        console.log("Chocaste contra un enemigo :(")
+    }
+
     game.fillText(emojis[`PLAYER`], playerPosition.x, playerPosition.y);
 }
 
