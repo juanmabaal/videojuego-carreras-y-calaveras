@@ -11,6 +11,10 @@ const playerPosition = {
     x: undefined,
     y: undefined,
 }
+const giftPosition = {
+    x: undefined,
+    y: undefined,
+}
 
 window.addEventListener(`load`,setCanvasSize)
 window.addEventListener(`resize`,setCanvasSize)
@@ -26,7 +30,7 @@ function setCanvasSize () {
     canvas.setAttribute(`width`, canvasSize)
     canvas.setAttribute(`height`, canvasSize)
 
-    elementSize = (canvasSize / 10) -1;
+    elementSize = (canvasSize / 10)-1;
     startGame();
 }
 
@@ -36,7 +40,7 @@ function startGame() {
     game.font = elementSize + `px Verdana`;
     game.textAlign = ``;
 
-    const map = maps[0];
+    const map = maps[1];
     const mapRows = map.trim().split(`\n`)
     const mapRowsCols = mapRows.map(row => row.trim().split(``))
 
@@ -44,8 +48,8 @@ function startGame() {
     mapRowsCols.forEach((row, rowI) => {
         row.forEach ((col, colI) => {
             const emoji = emojis [col]
-            const posX = elementSize * colI * 0.99;
-            const posY = elementSize * (rowI + 1) * 0.99;
+            const posX = elementSize * colI ;
+            const posY = elementSize * (rowI + 1) ;
             game.fillText(emoji,posX, posY)
 
             if (col == `O`){
@@ -54,6 +58,9 @@ function startGame() {
                     playerPosition.y = posY;
                     console.log({playerPosition})
                 }
+            }else if (col == `I`) {
+                giftPosition.x = posX;
+                giftPosition.y = posY;
             }
         })
     });
@@ -75,12 +82,19 @@ function moveByKeys(event) {
 }
 
 function movePlayer() {
+    const giftColisonX = playerPosition.x == giftPosition.x;
+    const giftColisionY= playerPosition.y == giftPosition.y;
+    const giftColision = giftColisonX && giftColisionY;
+
+    if (giftColision) {
+        console.log("Subiste de Nivel")
+    }
     game.fillText(emojis[`PLAYER`], playerPosition.x, playerPosition.y);
 }
 
 function moveUp () {
 console.log(`Me quiero mover hacia arriba`)
-if ((playerPosition.y - elementSize) < 0) {
+if ((playerPosition.y - elementSize) <= 0) {
     console.log(`OUT`)
 }else {
     playerPosition.y -= elementSize
