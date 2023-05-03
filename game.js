@@ -55,15 +55,6 @@ function startGame() {
                     console.log({playerPosition})
                 }
             }
-            if (playerPosition.x > (canvasSize)) {
-                moveLeft();
-            }else if ((playerPosition.x - elementSize)< 0) {
-                moveRight();
-            }else if(playerPosition.y > (canvasSize)){
-                moveUp();
-            }else if ((playerPosition.y - elementSize) < 0) {
-                moveDown();
-            }
         })
     });
 
@@ -89,24 +80,40 @@ function movePlayer() {
 
 function moveUp () {
 console.log(`Me quiero mover hacia arriba`)
-playerPosition.y -= elementSize
-startGame();
+if ((playerPosition.y - elementSize) < 0) {
+    console.log(`OUT`)
+}else {
+    playerPosition.y -= elementSize
+    startGame();
+}
 }
 
 function moveLeft () {
     console.log(`Me quiero mover hacia la izquierda`)
+    if ((playerPosition.x -elementSize) < 0) {
+        console.log(`OUT`)
+    }else {
     playerPosition.x -= elementSize
     startGame();
+}
 }
 
 function moveRight () {
     console.log(`Me quiero mover hacia la derecha`)
+    if ((playerPosition.x + elementSize) > (canvasSize - elementSize)) {
+        console.log(`OUT`)
+    }else {
     playerPosition.x += elementSize
     startGame();
+    }
 }
 
 function moveDown () {
     console.log(`Me quiero mover hacia abajo`)
-    playerPosition.y += elementSize
-    startGame();
+    if((playerPosition.y + elementSize) > canvasSize){
+        console.log(`OUT`)
+    }else {
+        playerPosition.y += elementSize
+        startGame(); 
+    }
 }
