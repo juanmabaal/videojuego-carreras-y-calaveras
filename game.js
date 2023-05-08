@@ -5,10 +5,16 @@ const btnLeft = document.querySelector(`#left`)
 const btnRight = document.querySelector(`#right`)
 const btnDown = document.querySelector(`#down`)
 const spanLives = document.querySelector(`#lives`)
+const spanTime = document.querySelector(`#time`)
+
 let canvasSize;
 let elementSize;
 let level = 0;
 let lives = 3;
+
+let starTime;
+let timePlayer;
+let timeInterval;
 
 const playerPosition = {
     x: undefined,
@@ -49,6 +55,11 @@ function startGame() {
     if (!map) {
         gameWin();
         return;
+    }
+
+    if(!starTime) {
+        starTime = Date.now();
+        timeInterval = setInterval(showTime,100);
     }
 
     const mapRows = map.trim().split(`\n`)
@@ -101,8 +112,8 @@ function moveByKeys(event) {
 }
 
 function movePlayer() {
-    const giftColisonX = playerPosition.x == giftPosition.x;
-    const giftColisionY= playerPosition.y == giftPosition.y;
+    const giftColisonX = playerPosition.x.toFixed(3)  == giftPosition.x.toFixed(3) ;
+    const giftColisionY= playerPosition.y.toFixed(3)  == giftPosition.y.toFixed(3) ;
     const giftColision = giftColisonX && giftColisionY;
 
     if (giftColision) {
@@ -110,8 +121,8 @@ function movePlayer() {
     }
 
     const enemyColision = enemyPositions.find(enemy => { 
-        const enemyColisionX = enemy.x == playerPosition.x;
-        const enemyColisionY = enemy.y == playerPosition.y;
+        const enemyColisionX = enemy.x.toFixed(3)  == playerPosition.x.toFixed(3) ;
+        const enemyColisionY = enemy.y.toFixed(3)  == playerPosition.y.toFixed(3) ;
         return enemyColisionX && enemyColisionY;
     });
 
@@ -135,6 +146,7 @@ function levelFail() {
     if (lives <=0) {
         level = 0;
         lives = 3;
+        starTime = undefined;
     }
     playerPosition.x = undefined;
     playerPosition.y = undefined;
@@ -143,6 +155,7 @@ function levelFail() {
 
 function gameWin() {
     alert(`Terminaste el juego, felicidades`)
+    clearInterval(timeInterval);
 }
 
 function showLives() {
@@ -153,6 +166,10 @@ function showLives() {
    spanLives.innerHTML = ``
     heartArray.forEach(heart => spanLives.append(heart))
 
+}
+
+function showTime() {
+    spanTime.innerHTML = Date.now() - starTime;
 }
 
 function moveUp () {
