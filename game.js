@@ -40,16 +40,22 @@ function setCanvasSize () {
         canvasSize = window.innerHeight * 0.8;
     }
 
+    canvasSize = Number(canvasSize.toFixed(0));
+
     canvas.setAttribute(`width`, canvasSize)
     canvas.setAttribute(`height`, canvasSize)
 
     elementSize = (canvasSize / 10)-1;
+
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
     startGame();
 }
 
 function startGame() {
-
     console.log({canvasSize, elementSize})
+    console.log(window.innerWidth, window.innerHeight);
+
     game.font = elementSize + `px Verdana`;
     game.textAlign = ``;
 
